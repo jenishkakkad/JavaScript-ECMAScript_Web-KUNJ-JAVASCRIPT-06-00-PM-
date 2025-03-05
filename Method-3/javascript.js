@@ -1,0 +1,1 @@
+console.log("Moremoro ava dyo p6i vaat")
