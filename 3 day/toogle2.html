@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smooth Toggle Box</title>
+  <style>
+    .box {
+      width: 300px;
+      height: 450px;
+      border: 5px solid red;
+      transition: all 0.5s ease; /* 🔄 Smooth effect */
+    }
+    .bg {
+      background-color: yellow;
+      border-radius: 50%;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box" id="box"></div>
+  <button id="toggleBtn">Click Me</button>
+
+  <script>
+    const box = document.getElementById("box");
+    const toggleBtn = document.getElementById("toggleBtn");
+
+    let isOn = false;
+
+    toggleBtn.addEventListener("click", function () {
+      if (!isOn) {
+        box.classList.add("bg");
+        toggleBtn.textContent = "Remove Me";
+        isOn = true;
+      } else {
+        box.classList.remove("bg");
+        toggleBtn.textContent = "Click Me";
+        isOn = false;
+      }
+    });
+  </script>
+</body>
+</html>

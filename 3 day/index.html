@@ -1,0 +1,106 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        padding: 0px;
+        margin: 0px;
+        box-sizing: border-box;
+    }
+    .div{
+        height: 100%;
+        width: 100%;
+    }
+    /* .div{
+        width: 300px;
+        height: 500px;
+        border: 1px solid black;
+        margin: 30px;
+    }
+    
+    .div2{
+        width:300px;
+        height: 250px;
+        border: 1px solid red;
+        margin-top: 200px;
+    }
+
+    .div3{
+        background-color: red;
+        width: 100px;
+        height: 100px;
+    }
+
+    .div4{
+        background-color: blue;
+        width: 100px;
+        height: 100px;
+    }
+
+    .btn1{
+        width: 100px;
+        height:50px;
+        border: 1px solid red;
+        margin-top: 50px;
+        margin-left: 100px;
+    }
+
+    .btn2{
+        width: 100px;
+        height:50px;
+        border: 1px solid blue;
+        margin-top: 10px;
+        margin-left: 100px;
+    } */
+</style>
+<body>
+        <div onclick="on()">click on</div>
+        <div onclick="off()">click off</div>
+</body>
+<script>
+    function on(){
+        let onapply=document.querySelector(".div2");
+        onapply.setAttribute("class","div3");
+    }
+    function off(){
+        let offapply=document.querySelector(".div2");
+        offapply.setAttribute("class","div4");
+    }        
+</script>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .box{
+        width: 250px;
+        height: 250px;
+        border: 5px solid red;
+    }
+</style>
+<body>
+    <div class="box" id="box"></div>
+    <button class="btn1" onclick="on()">click me</button>
+    <button class="btn2" onclick="off()">remove me</button>
+
+    <script>
+        function on(){
+            let box = document.getElementById("box")
+            box.style.backgroundColor = "red"
+        }
+        function off(){
+            let box = document.getElementById("box")
+            box.style.backgroundColor = "blue"
+        }
+    </script>
+</body>
+</html>

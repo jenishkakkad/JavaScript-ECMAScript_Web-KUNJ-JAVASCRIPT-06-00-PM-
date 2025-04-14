@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .box{
+        width: 250px;
+        height: 250px;
+        border: 5px solid red;
+    }
+    .bg{
+        background-color: yellow;
+        border-radius: 50%;
+    }
+</style>
+<body>
+    <div class="box" id="box"></div>
+    <button id="btn1">click me</button>
+    <button id="btn2">remove me</button>
+
+    <script>
+
+        let btn1 = document.getElementById("btn1")
+        let btn2 = document.getElementById("btn2")
+        let box = document.getElementById("box")
+
+        btn1.addEventListener("click",function(){
+            box.setAttribute("class","box bg")
+        })
+
+        btn2.addEventListener("click",function(){
+            box.setAttribute("class","box")
+        })
+        
+    </script>
+</body>
+</html>
