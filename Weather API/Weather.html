@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #8B5CF6 0%, #33C3F0 100%);
+      font-family: 'Roboto', Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .header {
+      margin-top: 50px;
+      color: white;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+    .header h1 {
+      font-size: 2.7rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .header p {
+      font-size: 1.18rem;
+      opacity: 0.92;
+      font-weight: 400;
+    }
+    .search-box {
+      margin: 30px auto 18px auto;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      max-width: 350px;
+      position: relative;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 32px;
+      font-size: 1.08rem;
+      outline: none;
+      box-shadow: 0 2px 22px rgba(139, 92, 246, 0.18);
+      color: #333;
+      font-family: inherit;
+      transition: background .15s;
+    }
+    .search-box input:focus {
+      background: #f3f7ff;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-top: 20px;
+    }
+    .weather-card {
+      min-width: 305px;
+      max-width: 366px;
+      background: linear-gradient(110deg, #ede9fe 60%, #fef6ff 100%);
+      border-radius: 25px;
+      box-shadow: 0 12px 40px #9b87f531;
+      padding: 32px 27px 27px 27px;
+      text-align: center;
+      color: #191828;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fade-in 0.45s;
+    }
+   @keyframes fade-in {
+      0% { opacity: 0; transform: translateY(21px);}
+      100% { opacity: 1; transform: translateY(0);}
+    }
+    .city-name {
+      font-size: 2.18rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: .02em;
+      color: #8B5CF6;
+    }
+    .weather-main {
+      font-size: 1.11rem;
+      font-weight: 600;
+      color: #58557b;
+      margin-bottom: 8px;
+    }
+    .temp-c {
+      font-size: 3.1rem;
+      font-weight: 800;
+      margin: 5px 0 4px 0;
+      color: #222;
+    }
+    .weather-extra {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0 8px;
+      margin-top: 10px;
+    }
+    .extra-item {
+      text-align: center;
+      font-size: 0.93rem;
+      color: #514d60;
+    }
+    .icon {
+      width: 85px;
+      height: 85px;
+      margin: 0 auto 4px auto;
+      display: block;
+    }
+    .notfound, .error {
+      color: #ea384c;
+      background: #fff;
+      margin-top: 50px;
+      padding: 28px;
+      border-radius: 18px;
+      font-size: 1.27rem;
+      font-weight: 500;
+      box-shadow: 0 4px 22px rgba(250, 80, 70, 0.10);
+      text-align: center;
+      max-width: 410px;
+    }
+    footer {
+      color: #d0def7;
+      margin-top: auto;
+      font-size: 13px;
+      text-align: center;
+      padding: 20px 0 13px 0;
+    }
+    @media (max-width: 500px) {
+      .weather-card { min-width: 98vw; max-width: 98vw; padding: 21px 5vw; }
+      .header { margin-top: 30px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Weather App</h1>
+    <p>Get real-time weather info for any city</p>
+  </div>
+  <div class="search-box">
+    <input type="text" id="cityInput" placeholder="Enter city name..." autocomplete="off" />
+  </div>
+  <div class="container"></div>
+  <div id="msg"></div>
+  <footer>Weather data by WeatherAPI.com</footer>
+  <script>
+    // Replace with your own free WeatherAPI.com API key
+    const API_KEY = "0ed01066c05d44d8a30164548252004";
+
+    const cityInput = document.getElementById('cityInput');
+    const container = document.querySelector('.container');
+    const msgDiv = document.getElementById('msg');
+    let timeout = null;
+
+    cityInput.addEventListener("keyup", function () {
+      if (timeout) clearTimeout(timeout);
+      timeout = setTimeout(() => searchWeather(cityInput.value), 600);
+    });
+
+    function searchWeather(cityName) {
+      container.innerHTML = '';
+      msgDiv.textContent = '';
+      cityName = cityName.trim();
+      if (!cityName) return;
+
+      fetch(`https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${encodeURIComponent(cityName)}&aqi=no`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            showError(data.error.message || "No weather data found.");
+            return;
+          }
+          showWeather(data);
+        })
+        .catch(() => {
+          showError("Could not fetch weather. Try again.");
+        });
+    }
+
+    function showWeather(data) {
+      const card = document.createElement('div');
+      card.className = "weather-card";
+      card.innerHTML = `
+        <div class="city-name">${data.location.name}, ${data.location.country}</div>
+        <img class="icon" src="https:${data.current.condition.icon}" alt="${data.current.condition.text}" />
+        <div class="weather-main">${data.current.condition.text}</div>
+        <div class="temp-c">${Math.round(data.current.temp_c)}°C</div>
+        <div class="weather-extra">
+          <div class="extra-item">
+            <b>Humidity</b><br>${data.current.humidity}%</div>
+          <div class="extra-item">
+            <b>Feels Like</b><br>${Math.round(data.current.feelslike_c)}°C</div>
+          <div class="extra-item">
+            <b>Wind</b><br>${data.current.wind_kph} kph</div>
+        </div>
+        <div class="weather-extra" style="margin-top:8px;">
+          <div class="extra-item">
+            <b>Local Time</b><br>${data.location.localtime.split(' ')[1]}</div>
+          <div class="extra-item">
+            <b>Region</b><br>${data.location.region || '-'}</div>
+        </div>
+      `;
+      container.appendChild(card);
+    }
+
+    function showError(message) {
+      msgDiv.innerHTML = `<div class="notfound">${message}</div>`;
+    }
+  </script>
+</body>
+</html>
