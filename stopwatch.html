@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>stop watch !</h1>
+    <input type="text" placeholder="enter time here" id="time">
+    <button onclick="hello()">click</button>
+    <h1 id="showtime"></h1>
+
+
+
+    <script>
+
+        function hello() {
+            let time = document.getElementById("time").value
+        
+            let showtime = document.getElementById("showtime")
+
+            let c = 0
+            setInterval(() => {
+                if (c < time) {
+                    c++
+                    showtime.innerText = c
+
+                }
+
+            }, 1000)
+
+
+        }
+    </script>
+</body>
+
+</html>
+Please apply the best approach in this code.

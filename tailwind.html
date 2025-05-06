@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container" id="co">
+
+  </div>
+
+
+
+  <script>
+    let container = document.getElementById("co")
+    let card = document.createElement("div")
+    card.setAttribute("class", "w-[200px] h-[300px] border-2 border-black")
+    container.appendChild(card)
+    
+    console.log(card)
+    let h1 = document.createElement("h1")
+    h1.setAttribute("class", "text-xl")
+    h1.innerText = "gub"
+    card.appendChild(h1)
+    console.log(h1)
+
+
+
+
+  </script>
+</body>
+
+</html>

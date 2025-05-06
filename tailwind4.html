@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+    *
+    {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+    }
+</style>
+<body class="bg-gray-100">
+
+  <div class="min-h-screen flex flex-wrap justify-center items-center gap-6 p-6 bg-blue-50" id="cardContainer"></div>
+  
+
+  <script>
+    const images = [
+      "https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM6M3-TKfeAx24UEeB9n3dcgH1aKkscf005g&s",
+      "https://t3.ftcdn.net/jpg/01/54/14/86/360_F_154148685_yvijeC6L2SFpvqFJ5H1lunPg40FzCAf1.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM_jM0T0_jwU1AzNopbXNuDTw_2VrNNlbVXQ&s",
+      "https://b.zmtcdn.com/data/pictures/chains/2/21240742/60a9f440e920f46bd2dbf6c81c8256a6.jpeg?fit=around|960:500&crop=960:500;*,*",
+      "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
+    ];
+
+    const descriptions = [
+      "Image of peaceful vibes",
+      "Cute animal stare",
+      "Nature at its best",
+      "A dreamy view",
+      "The wild explorer",
+      "Lonely tree, peaceful sky"
+    ];
+
+    const container = document.getElementById("cardContainer");
+
+    for (let i = 0; i < images.length; i++) {
+      const card = document.createElement("div");
+      card.setAttribute("class", "w-[240px] bg-white rounded-2xl shadow-lg border border-2 border-gray-500 p-4 flex flex-col items-center");
+
+    
+
+      const img = document.createElement("img");
+      img.setAttribute("src", images[i]);
+      img.setAttribute("alt", "Card Image " + (i + 1));
+      img.setAttribute("class", "rounded-xl transform transition duration-700 hover:scale-110 w-full");
+    //   rounded-xl etle 12px 
+
+   
+      const para = document.createElement("p");
+      para.setAttribute("class", "text-sm text-gray-500 text-center m-3"); 
+    //   m-3 etle 12px
+    //   text-sm etle font-size 14px
+      para.innerText = descriptions[i];
+
+    
+      const btn = document.createElement("button");
+      btn.setAttribute("class", "px-4 py-2 bg-[blue] text-white rounded-full");
+    //   px-4 etle 16px py-2 etle 8px
+      btn.innerText = "Click Me";
+      btn.onclick = () => alert("You clicked card " + (i + 1));
+
+      card.appendChild(img);
+      card.appendChild(para);
+      card.appendChild(btn);
+
+     
+      container.appendChild(card);
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+
+  <!-- Cards Container -->
+  <!-- <div class="container mx-auto min-h-screen flex flex-wrap justify-center items-center gap-6 p-6" id="co"> -->
+    <div class="container mx-auto min-h-screen flex flex-wrap justify-center items-center gap-6 p-6 bg-[red]" id="co">
+
+    <!-- Cards will be added here -->
+  </div>
+
+  <script>
+    // Array of image URLs
+    const images = [
+      "https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?cs=srgb&dl=pexels-chanwalrus-958545.jpg&fm=jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM6M3-TKfeAx24UEeB9n3dcgH1aKkscf005g&s",
+      "https://t3.ftcdn.net/jpg/01/54/14/86/360_F_154148685_yvijeC6L2SFpvqFJ5H1lunPg40FzCAf1.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM_jM0T0_jwU1AzNopbXNuDTw_2VrNNlbVXQ&s"
+    ];
+
+    // Paragraph texts
+    const descriptions = [
+      "This is the first card with awesome image.",
+      "Second card has another cool view.",
+      "Here's a third one with new style.",
+      "Last card with smooth layout and design."
+    ];
+
+    let container = document.getElementById("co");
+
+    // Loop through each image and create a card
+    for (let i = 0; i < images.length; i++) {
+      // Create card
+      let card = document.createElement("div");
+      card.setAttribute("class",
+        "w-[220px] bg-white rounded-2xl shadow-lg border border-gray-300 p-4 flex flex-col items-center hover:shadow-2xl transition duration-300"
+      );
+
+      // Create and set image
+      let img = document.createElement("img");
+      img.setAttribute("src", images[i]);
+      img.setAttribute("alt", "Card Image " + (i + 1));
+      img.setAttribute("class", "rounded-xl mb-3");
+
+      // Create paragraph
+      let para = document.createElement("p");
+      para.setAttribute("class", "text-sm text-gray-700 text-center mb-3");
+      para.innerText = descriptions[i];
+
+      // Create button
+      let btn = document.createElement("button");
+      btn.setAttribute("class", "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition");
+      btn.innerText = "Click Me";
+      btn.onclick = () => alert("You clicked Card " + (i + 1));
+
+      // Append all to card
+      card.appendChild(img);
+      card.appendChild(para);
+      card.appendChild(btn);
+
+      // Append card to container
+      container.appendChild(card);
+    }
+  </script>
+
+</body>
+
+</html>

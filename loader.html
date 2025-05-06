@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: black;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .round {
+        height: 200px;
+        width: 200px;
+        border: 2px solid white;
+        border-radius: 50%;
+        border-top: none;
+        border-left: none;
+        animation-name: animate;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        /* background-color: blue; */
+    }
+
+    .rounded
+    {
+        /* display: none; */
+        /* background-color: aqua; */
+        height: 200px;
+        width: 200px;
+        border: 2px solid white;
+        border-radius: 50%;
+        border-top: none;
+        border-left: none;
+        animation-name: animated;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+
+    }
+    .none
+    {
+        display: none;
+    }
+
+    @keyframes animate {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes animated {
+        0% {
+            transform: rotate(360deg);
+        }
+
+        100% {
+            transform: rotate(0deg);
+        }
+    }
+</style>
+
+<body>
+    <div class="round" id="circle"></div>
+
+
+    <script>
+            let circle = document.getElementById("circle");
+        
+
+        setTimeout(() => {
+            circle.classList.remove("round")
+            circle.classList.add("rounded")
+            // circle.classList.remove("rounded")
+            
+            
+            
+        }, 3000); 
+
+        setTimeout(() => {
+            circle.classList.add("none")
+
+            
+        }, 3000);
+
+       
+
+    </script>
+</body>
+
+</html>
