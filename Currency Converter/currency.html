@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Live Currency Converter</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #9face6); /* 🌈 Gradient */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      transition: background 0.5s ease;
+    }
+
+    .box {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      width: 300px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Soft shadow */
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .box:hover {
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); /* On hover */
+      transform: scale(1.02);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      transition: all 0.3s ease;
+    }
+
+    input {
+      width: 100%;
+    }
+
+    button {
+      background: linear-gradient(to right, #00c6ff, #0072ff); /* Button gradient */
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.4s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #0072ff, #00c6ff); /* Reverse on hover */
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 114, 255, 0.4); /* Button shadow */
+    }
+
+    .result {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Currency Converter</h2>
+    <input type="number" id="amount" placeholder="Enter amount" />
+    <select id="from"></select>
+    <select id="to"></select>
+    <button onclick="convert()">Convert</button>
+    <div class="result" id="result">Converted Amount: 0.00</div>
+  </div>
+
+  <script>
+    const fromSelect = document.getElementById('from');
+    const toSelect = document.getElementById('to');
+    const resultBox = document.getElementById('result');
+    const API_URL = 'https://api.exchangerate-api.com/v4/latest/';
+
+    async function loadCurrencies() {
+      try {
+        const res = await fetch(`${API_URL}USD`);
+        const data = await res.json();
+        const currencies = Object.keys(data.rates);
+
+        currencies.forEach(code => {
+          const option1 = new Option(code, code);
+          const option2 = new Option(code, code);
+          fromSelect.add(option1);
+          toSelect.add(option2);
+        });
+
+        fromSelect.value = 'USD';
+        toSelect.value = 'INR';
+      } catch (error) {
+        alert('Failed to load currency list.');
+        console.error(error);
+      }
+    }
+
+    async function convert() {
+      const amount = parseFloat(document.getElementById('amount').value);
+      const from = fromSelect.value;
+      const to = toSelect.value;
+
+      if (isNaN(amount)) {
+        alert("Please enter a valid number");
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}${from}`);
+        const data = await res.json();
+        const rate = data.rates[to];
+        const result = (amount * rate).toFixed(2);
+        resultBox.textContent = `Converted Amount: ${result} ${to}`;
+      } catch (error) {
+        alert('Conversion failed.');
+        console.error(error);
+      }
+    }
+
+    loadCurrencies();
+  </script>
+</body>
+</html>
