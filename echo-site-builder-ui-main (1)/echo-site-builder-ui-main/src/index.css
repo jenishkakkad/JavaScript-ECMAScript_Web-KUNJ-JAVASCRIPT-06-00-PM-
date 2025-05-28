@@ -1,0 +1,78 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Yellowtail&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+  }
+ 
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-roboto;
+  }
+}
+
+.section-heading {
+  @apply text-4xl font-bold text-primary mb-6;
+}
+
+.section-subheading {
+  @apply font-yellowtail text-2xl text-secondary mb-2;
+}
+
+.btn-primary {
+  @apply bg-primary text-white px-6 py-3 rounded-lg hover:bg-opacity-90 transition-all;
+}
+
+.btn-secondary {
+  @apply bg-accent text-primary px-6 py-3 rounded-lg hover:bg-opacity-90 transition-all;
+}
+
+.bg-newsletter {
+  background-color: #108EE9;
+  background-image: url('/images/newsletter-bg.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.product-badge {
+  @apply bg-primary text-white text-xs px-3 py-1 rounded-full absolute top-4 left-4;
+}
+
+.category-badge {
+  @apply bg-secondary text-white text-xs px-3 py-1 rounded-full;
+}
+
+.product-card {
+  @apply bg-light p-6 rounded-xl transition-all hover:shadow-lg;
+}
+
+.rating {
+  @apply flex gap-1 text-accent;
+}

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organick - Modern UI Components</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/buttons.css">
+    <link rel="stylesheet" href="css/carousel.css">
+    <link rel="stylesheet" href="css/dialog.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <!-- Logo -->
+                <a href="/" class="navbar-logo">
+                    <img src="images/logo.svg" alt="Organick" class="logo-img">
+                    <span class="logo-text">Organick</span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <nav class="navbar-nav desktop-nav">
+                    <a href="/" class="nav-link active">Home</a>
+                    <a href="/about" class="nav-link">About</a>
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link">
+                            Pages
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="dropdown-content">
+                            <a href="/team" class="dropdown-link">Our Team</a>
+                            <a href="/portfolio" class="dropdown-link">Portfolio</a>
+                            <a href="/services" class="dropdown-link">Services</a>
+                            <a href="/projects" class="dropdown-link">Projects</a>
+                            <a href="/news" class="dropdown-link">News</a>
+                        </div>
+                    </div>
+                    <a href="/shop" class="nav-link">Shop</a>
+                </nav>
+                
+                <!-- Actions -->
+                <div class="navbar-actions">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search..." class="search-input">
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    
+                    <a href="/cart" class="cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-text">Cart (0)</span>
+                        <span class="cart-count">0</span>
+                    </a>
+                    
+                    <button class="mobile-menu-btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Navigation -->
+            <nav class="navbar-nav mobile-nav">
+                <a href="/" class="nav-link active">Home</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="/shop" class="nav-link">Shop</a>
+                <details class="mobile-dropdown">
+                    <summary class="nav-link">
+                        Pages
+                        <i class="fas fa-chevron-down"></i>
+                    </summary>
+                    <div class="mobile-dropdown-content">
+                        <a href="/team" class="dropdown-link">Our Team</a>
+                        <a href="/portfolio" class="dropdown-link">Portfolio</a>
+                        <a href="/services" class="dropdown-link">Services</a>
+                        <a href="/projects" class="dropdown-link">Projects</a>
+                        <a href="/news" class="dropdown-link">News</a>
+                    </div>
+                </details>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="buttons" class="component-section">
+            <h2>Buttons</h2>
+            <div class="component-demo">
+                <button class="btn btn-primary">Primary Button</button>
+                <button class="btn btn-secondary">Secondary Button</button>
+                <button class="btn btn-outline">Outline Button</button>
+                <button class="btn btn-ghost">Ghost Button</button>
+                <button class="btn btn-link">Link Button</button>
+                <button class="btn btn-icon"><i class="fas fa-star"></i></button>
+                <button class="btn btn-destructive">Delete</button>
+            </div>
+        </section>
+
+        <section id="carousel" class="component-section">
+            <h2>Carousel</h2>
+            <div class="carousel-container">
+                <div class="carousel">
+                    <div class="carousel-item active">
+                        <img src="https://picsum.photos/800/400?random=1" alt="Slide 1">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://picsum.photos/800/400?random=2" alt="Slide 2">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://picsum.photos/800/400?random=3" alt="Slide 3">
+                    </div>
+                </div>
+                <button class="carousel-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+                <div class="carousel-dots"></div>
+            </div>
+        </section>
+
+        <section id="dialog" class="component-section">
+            <h2>Dialog</h2>
+            <div class="component-demo">
+                <button class="btn btn-primary" onclick="openDialog('demo-dialog')">Open Dialog</button>
+                <div class="dialog" id="demo-dialog">
+                    <div class="dialog-content">
+                        <div class="dialog-header">
+                            <h3>Dialog Title</h3>
+                            <button class="dialog-close" onclick="closeDialog('demo-dialog')">&times;</button>
+                        </div>
+                        <div class="dialog-body">
+                            <p>This is a sample dialog content. You can put any HTML content here.</p>
+                        </div>
+                        <div class="dialog-footer">
+                            <button class="btn btn-outline" onclick="closeDialog('demo-dialog')">Cancel</button>
+                            <button class="btn btn-primary">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Contact Us -->
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <p class="label">Email</p>
+                            <p class="value">needhelp@Organick.com</p>
+                        </div>
+                        <div class="contact-item">
+                            <p class="label">Phone</p>
+                            <p class="value">666 888 888</p>
+                        </div>
+                        <div class="contact-item">
+                            <p class="label">Address</p>
+                            <p class="value">88 road, borklyn street, USA</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Logo and Info -->
+                <div class="footer-section footer-center">
+                    <div class="footer-logo">
+                        <img src="images/logo.svg" alt="Organick" class="logo-img">
+                        <span class="logo-text">Organick</span>
+                    </div>
+                    <p class="footer-description">
+                        Simply dummy text of the printing and typesetting industry.
+                        Lorem Ipsum simply dummy text of the printing
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Utility Pages -->
+                <div class="footer-section">
+                    <h3>Utility Pages</h3>
+                    <ul class="footer-links">
+                        <li><a href="/style-guide">Style Guide</a></li>
+                        <li><a href="/404">404 Not Found</a></li>
+                        <li><a href="/protected">Password Protected</a></li>
+                        <li><a href="/licenses">Licenses</a></li>
+                        <li><a href="/changelog">Changelog</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="footer-copyright">
+                <p>Copyright © <span>Organick</span> | Designed by VictorFlow Templates - Powered by Webflow</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/carousel.js"></script>
+    <script src="js/dialog.js"></script>
+    <script src="js/navbar.js"></script>
+</body>
+</html> 
