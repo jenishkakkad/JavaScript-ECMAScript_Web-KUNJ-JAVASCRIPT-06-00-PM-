@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Password Flow UI Kit</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="card">
+        <div class="card-header">
+            <button id="backBtn" class="btn btn-ghost back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <h1 class="card-title">User Profile</h1>
+            <p class="card-description">View and manage your profile information</p>
+        </div>
+        <div class="card-content">
+            <div class="profile-info space-y-4">
+                <div class="profile-avatar">
+                    <div class="avatar-circle">
+                        <span id="avatarInitial"></span>
+                    </div>
+                </div>
+                
+                <div class="profile-detail">
+                    <label>Email</label>
+                    <p id="profileEmail" class="profile-value"></p>
+                </div>
+                
+                <div class="profile-detail">
+                    <label>Account Created</label>
+                    <p class="profile-value">Today</p>
+                </div>
+                
+                <div class="profile-detail">
+                    <label>Last Login</label>
+                    <p class="profile-value">Just now</p>
+                </div>
+                
+                <div class="profile-actions mt-4">
+                    <button id="changePasswordBtn" class="btn btn-outline">
+                        Change Password
+                    </button>
+                    <button id="logoutBtn" class="btn btn-primary">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+    <script>
+        // Back Button
+        document.getElementById('backBtn').addEventListener('click', function() {
+            window.location.href = 'dashboard.html';
+        });
+        
+        // Display user email and avatar initial
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                document.getElementById('profileEmail').textContent = currentUser;
+                
+                // Set avatar initial (first letter of email)
+                const initial = currentUser.charAt(0).toUpperCase();
+                document.getElementById('avatarInitial').textContent = initial;
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+        
+        // Change Password Button
+        document.getElementById('changePasswordBtn').addEventListener('click', function() {
+            window.location.href = 'update-password.html';
+        });
+        
+        // Logout Button
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            // Use the handleLogout function from scripts.js
+            handleLogout();
+        });
+    </script>
+</body>
+</html>

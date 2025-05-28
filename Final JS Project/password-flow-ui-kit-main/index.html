@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Password Flow UI Kit</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">Welcome Back</h1>
+            <p class="card-description">Sign in to your account</p>
+        </div>
+        <div class="card-content">
+            <form id="loginForm" class="space-y-4" autocomplete="off">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input 
+                        id="email" 
+                        type="email" 
+                        placeholder="Enter your email" 
+                        autocomplete="off"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        id="password" 
+                        type="password" 
+                        placeholder="Enter your password" 
+                        autocomplete="off"
+                        required
+                    >
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    Sign In
+                </button>
+            </form>
+            
+            <div class="mt-4 text-center">
+                <button 
+                    id="forgotPasswordBtn" 
+                    class="btn btn-link"
+                >
+                    Forgot Password?
+                </button>
+            </div>
+
+            <div class="mt-4">
+                <button 
+                    id="registerBtn" 
+                    class="btn btn-outline btn-block"
+                >
+                    Register New User
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div id="registerModal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Register New User</h2>
+                <p class="modal-description">Create a new account to get started.</p>
+            </div>
+            <form id="registerForm" class="space-y-4">
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <input 
+                        id="regEmail" 
+                        type="email" 
+                        placeholder="Enter your email" 
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input 
+                        id="regPassword" 
+                        type="password" 
+                        placeholder="Enter your password" 
+                        required
+                    >
+                    <div class="password-strength">
+                        <div class="strength-meter">
+                            <div class="strength-meter-fill" style="width: 0%"></div>
+                        </div>
+                        <div class="strength-text"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input 
+                        id="confirmPassword" 
+                        type="password" 
+                        placeholder="Confirm your password" 
+                        required
+                    >
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    Register
+                </button>
+                <button type="button" class="btn btn-outline btn-block" id="cancelRegisterBtn">
+                    Cancel
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+    <script>
+        // Clear the login form when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Always clear the form fields on page load
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            
+            // Check if we just logged out
+            if (localStorage.getItem('justLoggedOut') === 'true') {
+                // Clear the flag
+                localStorage.removeItem('justLoggedOut');
+                
+                // Force clear the form fields again after a small delay
+                // This helps overcome browser autofill
+                setTimeout(function() {
+                    document.getElementById('email').value = '';
+                    document.getElementById('password').value = '';
+                }, 100);
+            }
+        });
+        
+        // Login Form Handling
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get the current email and password fields (they might have been replaced)
+            const emailField = document.querySelector('#email');
+            const passwordField = document.querySelector('#password');
+            
+            const email = emailField ? emailField.value : '';
+            const password = passwordField ? passwordField.value : '';
+            
+            const users = getUsers();
+            
+            if (users.length === 0) {
+                showToast(
+                    "No users found", 
+                    "Please register first using the Register button below.", 
+                    "error"
+                );
+                return;
+            }
+            
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                setCurrentUser(email);
+                showToast(
+                    "Login successful!", 
+                    "Redirecting to dashboard..."
+                );
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+            } else {
+                showToast(
+                    "Login failed", 
+                    "Invalid email or password", 
+                    "error"
+                );
+            }
+        });
+        
+        // Registration Form Handling
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                showToast(
+                    "Registration failed", 
+                    "Passwords do not match", 
+                    "error"
+                );
+                return;
+            }
+            
+            if (password.length < 6) {
+                showToast(
+                    "Registration failed", 
+                    "Password must be at least 6 characters long", 
+                    "error"
+                );
+                return;
+            }
+            
+            const users = getUsers();
+            
+            const existingUser = users.find(u => u.email === email);
+            if (existingUser) {
+                showToast(
+                    "Registration failed", 
+                    "User already exists with this email", 
+                    "error"
+                );
+                return;
+            }
+            
+            users.push({ email, password });
+            saveUsers(users);
+            
+            showToast(
+                "Registration successful!", 
+                "You can now login with your credentials."
+            );
+            
+            closeModal('registerModal');
+            document.getElementById('registerForm').reset();
+        });
+        
+        // Modal Controls
+        document.getElementById('registerBtn').addEventListener('click', function() {
+            openModal('registerModal');
+        });
+        
+        document.getElementById('cancelRegisterBtn').addEventListener('click', function() {
+            closeModal('registerModal');
+            document.getElementById('registerForm').reset();
+        });
+        
+        // Forgot Password Button
+        document.getElementById('forgotPasswordBtn').addEventListener('click', function() {
+            window.location.href = 'forgot-password.html';
+        });
+    </script>
+</body>
+</html>

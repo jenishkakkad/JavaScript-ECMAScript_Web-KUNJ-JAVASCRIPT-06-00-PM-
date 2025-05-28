@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Password Flow UI Kit</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Dashboard</h1>
+            <div>
+                <button id="changePasswordBtn" class="btn btn-outline">
+                    Change Password
+                </button>
+                <button id="loginBtn" class="btn btn-outline">
+                    Login
+                </button>
+                <button id="logoutBtn" class="btn btn-primary">
+                    Logout
+                </button>
+            </div>
+        </div>
+        
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <h2 class="dashboard-card-title">Welcome</h2>
+                <p>You are logged in as: <strong id="userEmail"></strong></p>
+                <p class="mt-4">This is a simple dashboard to demonstrate the password flow UI kit.</p>
+                <button id="viewProfileBtn" class="btn btn-outline mt-4">
+                    View Profile
+                </button>
+            </div>
+            
+            <div class="dashboard-card">
+                <h2 class="dashboard-card-title">Account Security</h2>
+                <p>Last login: <strong>Just now</strong></p>
+                <p class="mt-2">Password last changed: <strong>Never</strong></p>
+                <button id="updatePasswordBtn" class="btn btn-outline mt-4">
+                    Update Password
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Change Password</h2>
+                <p class="modal-description">Update your account password</p>
+            </div>
+            <form id="changePasswordForm" class="space-y-4">
+                <div class="form-group">
+                    <label for="currentPassword">Current Password</label>
+                    <input 
+                        id="currentPassword" 
+                        type="password" 
+                        placeholder="Enter current password" 
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <input 
+                        id="newPassword" 
+                        type="password" 
+                        placeholder="Enter new password" 
+                        required
+                    >
+                    <div class="password-strength">
+                        <div class="strength-meter">
+                            <div class="strength-meter-fill" style="width: 0%"></div>
+                        </div>
+                        <div class="strength-text"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmNewPassword">Confirm New Password</label>
+                    <input 
+                        id="confirmNewPassword" 
+                        type="password" 
+                        placeholder="Confirm new password" 
+                        required
+                    >
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    Update Password
+                </button>
+                <button type="button" class="btn btn-outline btn-block" id="cancelChangePasswordBtn">
+                    Cancel
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+    <script>
+        // Display user email
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                document.getElementById('userEmail').textContent = currentUser;
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+        
+        // Login Button
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            // Use the handleLogout function from scripts.js
+            handleLogout();
+        });
+        
+        // Logout Button
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            // Use the handleLogout function from scripts.js
+            handleLogout();
+        });
+        
+        // Change Password Button
+        document.getElementById('changePasswordBtn').addEventListener('click', function() {
+            openModal('changePasswordModal');
+        });
+        
+        document.getElementById('updatePasswordBtn').addEventListener('click', function() {
+            openModal('changePasswordModal');
+        });
+        
+        // View Profile Button
+        document.getElementById('viewProfileBtn').addEventListener('click', function() {
+            window.location.href = 'profile.html';
+        });
+        
+        document.getElementById('cancelChangePasswordBtn').addEventListener('click', function() {
+            closeModal('changePasswordModal');
+            document.getElementById('changePasswordForm').reset();
+        });
+        
+        // Change Password Form Handling
+        document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+            
+            if (newPassword !== confirmNewPassword) {
+                showToast(
+                    "Password mismatch", 
+                    "New passwords do not match", 
+                    "error"
+                );
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                showToast(
+                    "Password too short", 
+                    "Password must be at least 6 characters long", 
+                    "error"
+                );
+                return;
+            }
+            
+            const currentUser = getCurrentUser();
+            const users = getUsers();
+            
+            const userIndex = users.findIndex(u => u.email === currentUser);
+            if (userIndex !== -1) {
+                // Verify current password
+                if (users[userIndex].password !== currentPassword) {
+                    showToast(
+                        "Incorrect password", 
+                        "Your current password is incorrect", 
+                        "error"
+                    );
+                    return;
+                }
+                
+                // Update password
+                users[userIndex].password = newPassword;
+                saveUsers(users);
+                
+                showToast(
+                    "Password updated!", 
+                    "Your password has been updated successfully."
+                );
+                
+                closeModal('changePasswordModal');
+                document.getElementById('changePasswordForm').reset();
+            } else {
+                showToast(
+                    "Error", 
+                    "An error occurred. Please try again.", 
+                    "error"
+                );
+            }
+        });
+    </script>
+</body>
+</html>

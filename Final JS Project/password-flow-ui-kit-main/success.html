@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success - Password Flow UI Kit</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1rem;
+            color: var(--success-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="card-header">
+            <div class="success-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+            </div>
+            <h1 class="card-title">Success!</h1>
+            <p class="card-description" id="successMessage">Your operation was completed successfully.</p>
+        </div>
+        <div class="card-content">
+            <button id="continueBtn" class="btn btn-primary btn-block">
+                Continue
+            </button>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get success type from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const type = urlParams.get('type');
+            const redirectTo = urlParams.get('redirect') || 'index.html';
+            
+            // Set success message based on type
+            const successMessageElement = document.getElementById('successMessage');
+            
+            switch(type) {
+                case 'password-reset':
+                    successMessageElement.textContent = 'Your password has been reset successfully.';
+                    break;
+                case 'password-change':
+                    successMessageElement.textContent = 'Your password has been changed successfully.';
+                    break;
+                case 'registration':
+                    successMessageElement.textContent = 'Your account has been created successfully.';
+                    break;
+                default:
+                    successMessageElement.textContent = 'Your operation was completed successfully.';
+            }
+            
+            // Continue button
+            document.getElementById('continueBtn').addEventListener('click', function() {
+                window.location.href = redirectTo;
+            });
+        });
+    </script>
+</body>
+</html>

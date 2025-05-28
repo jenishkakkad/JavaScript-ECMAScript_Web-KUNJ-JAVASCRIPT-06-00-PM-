@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification - Password Flow UI Kit</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="card">
+        <div class="card-header">
+            <button id="backBtn" class="btn btn-ghost back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            </button>
+            <h1 class="card-title">Enter OTP</h1>
+            <p class="card-description">Enter the 6-digit code sent to your email</p>
+            <div class="demo-otp hidden mt-2">
+                <p>Demo OTP: <strong id="demoOtp"></strong></p>
+            </div>
+        </div>
+        <div class="card-content">
+            <form id="otpForm" class="space-y-4">
+                <div class="form-group">
+                    <label>Enter OTP</label>
+                    <div class="otp-inputs">
+                        <input type="text" class="otp-input" maxlength="1" id="otp-0" required>
+                        <input type="text" class="otp-input" maxlength="1" id="otp-1" required>
+                        <input type="text" class="otp-input" maxlength="1" id="otp-2" required>
+                        <input type="text" class="otp-input" maxlength="1" id="otp-3" required>
+                        <input type="text" class="otp-input" maxlength="1" id="otp-4" required>
+                        <input type="text" class="otp-input" maxlength="1" id="otp-5" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    Verify OTP
+                </button>
+                <div class="text-center mt-4">
+                    <button type="button" id="resendOtpBtn" class="btn btn-link">
+                        Didn't receive the code? Resend
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+    <script>
+        // Back Button
+        document.getElementById('backBtn').addEventListener('click', function() {
+            window.location.href = 'forgot-password.html';
+        });
+        
+        // OTP Form Handling
+        document.getElementById('otpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect OTP from inputs
+            const otpInputs = document.querySelectorAll('.otp-input');
+            const enteredOtp = Array.from(otpInputs).map(input => input.value).join('');
+            const storedOtp = localStorage.getItem('tempOtp');
+            
+            if (enteredOtp === storedOtp) {
+                showToast(
+                    "OTP verified!", 
+                    "Redirecting to reset password..."
+                );
+                setTimeout(() => {
+                    window.location.href = 'reset-password.html';
+                }, 1000);
+            } else {
+                showToast(
+                    "Invalid OTP", 
+                    "Please check your OTP and try again.", 
+                    "error"
+                );
+            }
+        });
+        
+        // Resend OTP
+        document.getElementById('resendOtpBtn').addEventListener('click', function() {
+            const email = localStorage.getItem('otpEmail');
+            
+            if (email) {
+                // Generate new OTP
+                const otp = generateOtp();
+                localStorage.setItem('tempOtp', otp);
+                
+                console.log('New OTP:', otp); // For demo purposes
+                
+                // Update demo OTP display
+                const demoOtpElement = document.getElementById('demoOtp');
+                if (demoOtpElement) {
+                    demoOtpElement.textContent = otp;
+                    document.querySelector('.demo-otp').classList.remove('hidden');
+                }
+                
+                showToast(
+                    "OTP resent!", 
+                    "A new OTP has been sent to your email."
+                );
+            } else {
+                showToast(
+                    "Error", 
+                    "Please go back to the forgot password page and try again.", 
+                    "error"
+                );
+                setTimeout(() => {
+                    window.location.href = 'forgot-password.html';
+                }, 1500);
+            }
+        });
+        
+        // Show demo OTP if available
+        document.addEventListener('DOMContentLoaded', function() {
+            const demoOtp = localStorage.getItem('tempOtp');
+            const demoOtpElement = document.getElementById('demoOtp');
+            
+            if (demoOtp && demoOtpElement) {
+                demoOtpElement.textContent = demoOtp;
+                document.querySelector('.demo-otp').classList.remove('hidden');
+                console.log('OTP for verification:', demoOtp); // Log OTP for easy access
+            } else {
+                // If no OTP is found, redirect to forgot password page
+                showToast(
+                    "No OTP found", 
+                    "Please request a new OTP from the forgot password page.", 
+                    "error"
+                );
+                setTimeout(() => {
+                    window.location.href = 'forgot-password.html';
+                }, 1500);
+            }
+            
+            // Setup OTP inputs
+            setupOtpInputs();
+        });
+    </script>
+</body>
+</html>
