@@ -20,19 +20,27 @@
                         id="email" 
                         type="email" 
                         placeholder="Enter your email" 
-                        autocomplete="off"
+                        autocomplete="new-password"
                         required
                     >
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input 
-                        id="password" 
-                        type="password" 
-                        placeholder="Enter your password" 
-                        autocomplete="off"
-                        required
-                    >
+                    <div class="password-field">
+                        <input 
+                            id="password" 
+                            type="password" 
+                            placeholder="Enter your password" 
+                            autocomplete="new-password"
+                            required
+                        >
+                        <button type="button" class="password-toggle" onclick="togglePassword('password')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">
                     Sign In
@@ -78,12 +86,20 @@
                 </div>
                 <div class="form-group">
                     <label for="regPassword">Password</label>
-                    <input 
-                        id="regPassword" 
-                        type="password" 
-                        placeholder="Enter your password" 
-                        required
-                    >
+                    <div class="password-field">
+                        <input 
+                            id="regPassword" 
+                            type="password" 
+                            placeholder="Enter your password" 
+                            required
+                        >
+                        <button type="button" class="password-toggle" onclick="togglePassword('regPassword')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                    </div>
                     <div class="password-strength">
                         <div class="strength-meter">
                             <div class="strength-meter-fill" style="width: 0%"></div>
@@ -93,12 +109,20 @@
                 </div>
                 <div class="form-group">
                     <label for="confirmPassword">Confirm Password</label>
-                    <input 
-                        id="confirmPassword" 
-                        type="password" 
-                        placeholder="Confirm your password" 
-                        required
-                    >
+                    <div class="password-field">
+                        <input 
+                            id="confirmPassword" 
+                            type="password" 
+                            placeholder="Confirm your password" 
+                            required
+                        >
+                        <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">
                     Register
@@ -112,23 +136,63 @@
 
     <script src="scripts.js"></script>
     <script>
-        // Clear the login form when the page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Always clear the form fields on page load
-            document.getElementById('email').value = '';
-            document.getElementById('password').value = '';
+        // Password Toggle Function
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const toggleBtn = input.nextElementSibling;
             
-            // Check if we just logged out
-            if (localStorage.getItem('justLoggedOut') === 'true') {
-                // Clear the flag
-                localStorage.removeItem('justLoggedOut');
+            if (input.type === 'password') {
+                input.type = 'text';
+                toggleBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                `;
+            } else {
+                input.type = 'password';
+                toggleBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                `;
+            }
+        }
+        
+        // Handle the login form when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM loaded in index.html");
+            
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const rememberParam = urlParams.get('remember');
+            console.log("URL parameter 'remember':", rememberParam);
+            
+            // Clear the URL parameter without refreshing the page
+            if (rememberParam) {
+                const newUrl = window.location.pathname;
+                window.history.replaceState({}, document.title, newUrl);
+                console.log("URL parameter cleared");
+            }
+            
+            // Check if we're coming from the back button (remember=true)
+            if (rememberParam === 'true') {
+                console.log("Coming from back button");
+                // Get the saved credentials
+                const lastEmail = localStorage.getItem('lastLoginEmail');
+                const lastPassword = localStorage.getItem('lastLoginPassword');
+                console.log("Saved email:", lastEmail ? "Found" : "Not found");
+                console.log("Saved password:", lastPassword ? "Found" : "Not found");
                 
-                // Force clear the form fields again after a small delay
-                // This helps overcome browser autofill
-                setTimeout(function() {
-                    document.getElementById('email').value = '';
-                    document.getElementById('password').value = '';
-                }, 100);
+                // Fill the form with the saved credentials
+                if (lastEmail) {
+                    document.getElementById('email').value = lastEmail;
+                }
+                
+                if (lastPassword) {
+                    document.getElementById('password').value = lastPassword;
+                }
             }
         });
         
@@ -157,6 +221,10 @@
             const user = users.find(u => u.email === email && u.password === password);
             
             if (user) {
+                // Clear saved login credentials after successful login
+                localStorage.removeItem('lastLoginEmail');
+                localStorage.removeItem('lastLoginPassword');
+                
                 setCurrentUser(email);
                 showToast(
                     "Login successful!", 

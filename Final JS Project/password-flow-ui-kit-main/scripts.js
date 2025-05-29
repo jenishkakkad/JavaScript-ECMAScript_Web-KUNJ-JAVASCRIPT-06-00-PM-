@@ -53,13 +53,23 @@ function clearCurrentUser() {
     localStorage.removeItem('currentUser');
 }
 
-// Function to handle logout and clear form fields
-function handleLogout() {
+// Function to handle login button (remember credentials)
+function handleLogin() {
+    // Get current user email
+    const currentUserEmail = getCurrentUser();
+    
+    // Get the user's password from storage
+    const users = getUsers();
+    const currentUser = users.find(u => u.email === currentUserEmail);
+    
+    if (currentUser) {
+        // Save the credentials for pre-filling the login form
+        localStorage.setItem('lastLoginEmail', currentUserEmail);
+        localStorage.setItem('lastLoginPassword', currentUser.password);
+    }
+    
     // Clear current user
     clearCurrentUser();
-    
-    // Set a flag to indicate we're coming from logout
-    localStorage.setItem('justLoggedOut', 'true');
     
     // Show toast notification
     showToast(
@@ -67,8 +77,35 @@ function handleLogout() {
         "You have been successfully logged out."
     );
     
-    // Redirect to login page
-    window.location.href = 'index.html';
+    // Redirect to login page with remember=true parameter
+    window.location.href = 'index.html?remember=true';
+}
+
+// Function to handle logout (clear credentials)
+function handleLogout() {
+    console.log("handleLogout function called");
+    
+    // Clear current user
+    clearCurrentUser();
+    console.log("Current user cleared");
+    
+    // Clear any saved credentials
+    localStorage.removeItem('lastLoginEmail');
+    localStorage.removeItem('lastLoginPassword');
+    console.log("Saved credentials cleared");
+    
+    // Show toast notification
+    showToast(
+        "Logged out", 
+        "You have been successfully logged out."
+    );
+    console.log("Toast notification shown");
+    
+    // Add a small delay before redirecting
+    console.log("Redirecting to login page with remember=false parameter");
+    setTimeout(function() {
+        window.location.href = 'index.html?remember=false';
+    }, 500);
 }
 
 // Password Strength Meter
